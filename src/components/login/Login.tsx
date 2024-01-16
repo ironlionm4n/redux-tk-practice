@@ -20,11 +20,14 @@ import {
 import { app } from "../../firebase";
 import GoogleIcon from "@mui/icons-material/Google";
 import SignUpCard from "../cards/SignUpCard";
+import { updateUserName } from "../../store/user/user.slice";
+import { useDispatch } from "react-redux";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [signUp, setSignUp] = useState<boolean>(false);
+  const dispatch = useDispatch();
 
   const handleSignUp = (): void => {
     setSignUp(true);
@@ -42,6 +45,12 @@ const Login: React.FC = () => {
       .then((result: UserCredential) => {
         const user = result.user;
         console.log(`User signed in ${user?.displayName}`);
+        dispatch(
+          updateUserName({
+            username: user.displayName ?? "",
+            emailAddress: user.email ?? "",
+          })
+        );
       })
       .catch((error: AuthError) => {
         const errorCode = error.code;
@@ -58,26 +67,31 @@ const Login: React.FC = () => {
     setPassword(value);
   };
 
-  useEffect(() => {
-    const auth = getAuth(app);
-    getRedirectResult(auth)
-      .then((result: UserCredential | null) => {
-        const credential = GoogleAuthProvider.credentialFromResult(
-          result as UserCredential
-        );
-        if (credential && result) {
-          const token = credential.accessToken;
-          const user = result.user;
-          console.log(`User signed in ${user?.displayName} token ${token}`);
-        }
-      })
-      .catch((error: AuthError) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        console.log(`Error ${errorCode} ${errorMessage} ${credential}`);
-      });
-  }, []);
+  // useEffect(() => {
+  //   const auth = getAuth(app);
+  //   console.log("Auth UseEffect " + JSON.stringify(auth));
+  //   getRedirectResult(auth)
+  //     .then((result: UserCredential | null) => {
+  //       const credential = GoogleAuthProvider.credentialFromResult(
+  //         result as UserCredential
+  //       );
+  //       if (credential && result) {
+  //         const token = credential.accessToken;
+  //         const user = result.user;
+  //         console.log(`User signed in ${user?.displayName} token ${token}`);
+  //         dispatch(
+  //           updateUserName({
+  //             username: user?.displayName ?? "DISPLAY NAME NULL",
+  //             emailAddress: user?.email ?? "EMAIL ADDRESS NULL",
+  //           })
+  //         );
+  //       }
+  //     })
+  //     .catch((error: AuthError) => {
+  //       const errorMessage = error.message;
+  //       console.log(`Error ${errorMessage}`);
+  //     });
+  // }, []);
 
   if (signUp) return <SignUpCard />;
 

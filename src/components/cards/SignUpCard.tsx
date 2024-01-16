@@ -12,6 +12,8 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { app } from "../../firebase";
+import { useDispatch } from "react-redux";
+import { updateUserName } from "../../store/user/user.slice";
 
 const SignUpCard: React.FC = () => {
   const [firstName, setFirstName] = useState<string>("");
@@ -19,6 +21,8 @@ const SignUpCard: React.FC = () => {
   const [displayNameVal, setDisplayName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const dispatch = useDispatch();
+
   const handleFirstName = (value: string) => {
     setFirstName(value);
   };
@@ -51,7 +55,12 @@ const SignUpCard: React.FC = () => {
           .then(() => {
             // Profile updated!
             console.log("Profile updated!" + JSON.stringify(user));
-
+            dispatch(
+              updateUserName({
+                username: user.displayName ?? "DISPLAY NAME NULL",
+                emailAddress: user.email ?? "EMAIL ADDRESS NULL",
+              })
+            );
             // ...
           })
           .catch((error) => {
