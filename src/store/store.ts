@@ -1,5 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit";
-//import notificationsReducer from "./notifications/notifications.slice";
 import userReducer from "./user/user.slice";
 
 export const store = configureStore({
