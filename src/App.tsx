@@ -1,54 +1,18 @@
-import { useDispatch, useSelector } from "react-redux";
-import {
-  selectNotificationsCount,
-  selectResetStatus,
-} from "./store/notifications/notifiations.selectors";
-
+import { selectUsername } from "./store/user/user.selectors";
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import {
-  increment,
-  reset,
-  resetCountViaApi,
-} from "./store/notifications/notifications.slice";
-import { AppDispatch } from "./store/store";
+import Login from "./components/login/Login";
+import Home from "./components/pages/Home";
+import { useSelector } from "react-redux";
 
 function App() {
-  const count = useSelector(selectNotificationsCount);
-  const dispatch = useDispatch<AppDispatch>();
-  const resetStatus = useSelector(selectResetStatus);
-
-  const resetButtonText = () => {
-    switch (resetStatus) {
-      case "idle":
-        return "Reset";
-      case "error":
-        return "Error";
-      case "loading":
-        return "Loading...";
-      default:
-        break;
-    }
-  };
-
+  const user = useSelector(selectUsername);
   return (
     <>
-      <h1>Notifications Count = {count}</h1>
-      <div className="card">
-        <button
-          onClick={() => {
-            dispatch(increment());
-          }}
-        >
-          Increment
-        </button>
-        <button
-          onClick={() => {
-            dispatch(resetCountViaApi());
-          }}
-        >
-          {resetButtonText()}
-        </button>
-      </div>
+      <Routes>
+        <Route path="/" element={user.length > 0 ? <Home /> : <Login />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
     </>
   );
 }
