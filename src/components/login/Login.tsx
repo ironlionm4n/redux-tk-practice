@@ -22,13 +22,14 @@ import GoogleIcon from "@mui/icons-material/Google";
 import SignUpCard from "../cards/SignUpCard";
 import { updateUserName } from "../../store/user/user.slice";
 import { useDispatch } from "react-redux";
+import theme from "../../theme";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [signUp, setSignUp] = useState<boolean>(false);
   const dispatch = useDispatch();
-
+  const auth = getAuth(app);
   const handleSignUp = (): void => {
     setSignUp(true);
   };
@@ -36,7 +37,22 @@ const Login: React.FC = () => {
   const handleGoogleAuth = (): void => {
     const provider = new GoogleAuthProvider();
     const auth = getAuth(app);
-    signInWithRedirect(auth, provider);
+    signInWithRedirect(auth, provider)
+      .then((result: UserCredential) => {
+        const user = result.user;
+        console.log(`User signed in ${user?.email}`);
+        dispatch(
+          updateUserName({
+            username: user.email ?? "",
+            emailAddress: user.email ?? "",
+          })
+        );
+      })
+      .catch((error: AuthError) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(`Error ${errorCode} ${errorMessage}`);
+      });
   };
 
   const handleSignInWithEmailPassword = (): void => {
@@ -67,37 +83,38 @@ const Login: React.FC = () => {
     setPassword(value);
   };
 
-  // useEffect(() => {
-  //   const auth = getAuth(app);
-  //   console.log("Auth UseEffect " + JSON.stringify(auth));
-  //   getRedirectResult(auth)
-  //     .then((result: UserCredential | null) => {
-  //       const credential = GoogleAuthProvider.credentialFromResult(
-  //         result as UserCredential
-  //       );
-  //       if (credential && result) {
-  //         const token = credential.accessToken;
-  //         const user = result.user;
-  //         console.log(`User signed in ${user?.displayName} token ${token}`);
-  //         dispatch(
-  //           updateUserName({
-  //             username: user?.displayName ?? "DISPLAY NAME NULL",
-  //             emailAddress: user?.email ?? "EMAIL ADDRESS NULL",
-  //           })
-  //         );
-  //       }
-  //     })
-  //     .catch((error: AuthError) => {
-  //       const errorMessage = error.message;
-  //       console.log(`Error ${errorMessage}`);
-  //     });
-  // }, []);
-
   if (signUp) return <SignUpCard />;
 
+  useEffect(() => {
+    getRedirectResult(auth)
+      .then((result) => {
+        if (result) {
+          const user = result.user;
+          console.log(`User signed in ${user?.email}`);
+          dispatch(
+            updateUserName({
+              username: user.email ?? "",
+              emailAddress: user.email ?? "",
+            })
+          );
+        }
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(`Error ${errorCode} ${errorMessage}`);
+      });
+  }, [auth, dispatch]);
+  const primary = theme.palette.primary;
+  const secondary = theme.palette.secondary;
+
   return (
-    <Card sx={{ width: "50vw" }}>
-      <CardContent>
+    <Card sx={{ width: "50%", border: `4px solid ${secondary.dark}` }}>
+      <CardContent
+        sx={{
+          background: `linear-gradient(to bottom right, ${secondary.light} 33%, ${secondary.main} 66%, ${secondary.dark} 100%)`,
+        }}
+      >
         <CardHeader title="Login" />
         <CardContent
           sx={{
@@ -110,9 +127,10 @@ const Login: React.FC = () => {
         >
           <TextField
             label="Email"
-            variant="outlined"
+            variant="filled"
             onChange={(e) => handleEmailChange(e.target.value)}
             value={email}
+            sx={{ backgroundColor: "white", width: "66%", mb: 1 }}
           />
           <TextField
             label="Password"
@@ -120,11 +138,17 @@ const Login: React.FC = () => {
             onChange={(e) => handlePasswordChange(e.target.value)}
             type="password"
             value={password}
+            sx={{ backgroundColor: "white", width: "66%", mb: 1 }}
           />
-          <Button variant="contained" onClick={handleSignInWithEmailPassword}>
+          <Button
+            variant="contained"
+            onClick={handleSignInWithEmailPassword}
+            size="large"
+            sx={{ backgroundColor: primary.main }}
+          >
             Login
           </Button>
-          <Button variant="contained" onClick={handleSignUp}>
+          <Button variant="contained" onClick={handleSignUp} size="large">
             Sign Up
           </Button>
           <GoogleIcon onClick={handleGoogleAuth} sx={{ color: "#4285F4" }} />
