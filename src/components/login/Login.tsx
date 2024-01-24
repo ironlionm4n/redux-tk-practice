@@ -83,8 +83,6 @@ const Login: React.FC = () => {
     setPassword(value);
   };
 
-  if (signUp) return <SignUpCard />;
-
   useEffect(() => {
     getRedirectResult(auth)
       .then((result) => {
@@ -105,11 +103,22 @@ const Login: React.FC = () => {
         console.log(`Error ${errorCode} ${errorMessage}`);
       });
   }, [auth, dispatch]);
+
+  if (signUp) return <SignUpCard />;
+
   const primary = theme.palette.primary;
   const secondary = theme.palette.secondary;
 
   return (
-    <Card sx={{ width: "50%", border: `4px solid ${secondary.dark}` }}>
+    <Card
+      sx={{
+        width: "50%",
+        border: "6px solid transparent",
+        backgroundImage: `linear-gradient(white, white), linear-gradient(to right, ${secondary.dark}, ${secondary.light}, ${secondary.light}, ${secondary.dark})`,
+        backgroundOrigin: "border-box",
+        backgroundClip: "content-box, border-box",
+      }}
+    >
       <CardContent
         sx={{
           background: `linear-gradient(to bottom right, ${secondary.light} 33%, ${secondary.main} 66%, ${secondary.dark} 100%)`,

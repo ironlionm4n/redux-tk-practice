@@ -4,6 +4,7 @@ import styles from "./Home.module.css";
 import Logout from "../buttons/Logout";
 import { getAuth } from "firebase/auth";
 import { app } from "../../firebase";
+import TutorialCard from "../cards/TutorialCard";
 
 const Home: React.FC = () => {
   const auth = getAuth(app);
@@ -30,7 +31,26 @@ const Home: React.FC = () => {
           </CardContent>
         </Card>
       </nav>
-      <div className={styles.homeCard}></div>
+      <div className={styles.homeCard}>
+        <div className={styles.section}>
+          <h2>Beginner</h2>
+          <div className={styles.tutorial}>
+            <TutorialCard />
+            <TutorialCard />
+            <TutorialCard />
+            <TutorialCard />
+            <TutorialCard />
+          </div>
+        </div>
+        <div className={styles.section}>
+          <h2>Intermediate</h2>
+          <TutorialCard />
+        </div>
+        <div className={styles.section}>
+          <h2>Advanced</h2>
+          <TutorialCard />
+        </div>
+      </div>
     </>
   );
 };
