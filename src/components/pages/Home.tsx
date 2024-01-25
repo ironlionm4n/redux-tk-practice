@@ -1,15 +1,70 @@
-import { Card, CardContent, Typography } from "@mui/material";
+import { Card, CardContent, Container, Paper, Typography } from "@mui/material";
 import React from "react";
 import styles from "./Home.module.css";
 import Logout from "../buttons/Logout";
 import { getAuth } from "firebase/auth";
 import { app } from "../../firebase";
 import TutorialCard from "../cards/TutorialCard";
+import ApplicationBar from "../navbar/ApplicationBar";
 
 const Home: React.FC = () => {
   const auth = getAuth(app);
+
   return (
-    <>
+    <div>
+      <ApplicationBar />
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+        }}
+      >
+        <Container
+          sx={{
+            backgroundColor: "#000000",
+            color: "#ffffff",
+            padding: "2rem",
+            textAlign: "center",
+          }}
+        >
+          <Typography variant="h2">Welcome to Unity Skill Forge</Typography>
+          <Typography variant="h4">
+            The best place to learn Unity game development
+          </Typography>
+          <Typography variant="h6">
+            Unity Skill Forge is a place where you can learn Unity game
+            development from the ground up. We have tutorials for all skill
+            levels, from beginner to advanced. We also have a community forum
+            where you can ask questions and get help from other developers.
+          </Typography>
+        </Container>
+        <Container>
+          <Paper elevation={10}>
+            <Typography variant="h4">Beginner Tutorials</Typography>
+            <Typography variant="h6">
+              These tutorials are for beginners who are new to Unity and game
+              development in general. They will teach you the basics of Unity
+              and how to make your first game.
+            </Typography>
+            <Typography variant="h6">
+              <ul>
+                <li>Getting Started with Unity</li>
+                <li>How to Make a 2D Game</li>
+                <li>How to Make a 3D Game</li>
+                <li>How to Make a Multiplayer Game</li>
+              </ul>
+            </Typography>
+          </Paper>
+        </Container>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className={styles.home}>
       <nav style={{ width: "100%" }}>
         <Card
           sx={{
@@ -22,6 +77,7 @@ const Home: React.FC = () => {
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "space-between",
+              height: "1rem",
             }}
           >
             <Typography fontSize={24}>
@@ -51,7 +107,7 @@ const Home: React.FC = () => {
           <TutorialCard />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
