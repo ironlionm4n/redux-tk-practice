@@ -30,8 +30,9 @@ const Login: React.FC = () => {
   const [signUp, setSignUp] = useState<boolean>(false);
   const dispatch = useDispatch();
   const auth = getAuth(app);
-  const handleSignUp = (): void => {
-    setSignUp(true);
+
+  const handleSignUp = (isVisible: boolean) => {
+    setSignUp(isVisible);
   };
 
   const handleGoogleAuth = (): void => {
@@ -104,7 +105,7 @@ const Login: React.FC = () => {
       });
   }, [auth, dispatch]);
 
-  if (signUp) return <SignUpCard />;
+  if (signUp) return <SignUpCard handleSignUp={handleSignUp} />;
 
   const primary = theme.palette.primary;
   const secondary = theme.palette.secondary;
@@ -157,7 +158,11 @@ const Login: React.FC = () => {
           >
             Login
           </Button>
-          <Button variant="contained" onClick={handleSignUp} size="large">
+          <Button
+            variant="contained"
+            onClick={() => handleSignUp(true)}
+            size="large"
+          >
             Sign Up
           </Button>
           <GoogleIcon onClick={handleGoogleAuth} sx={{ color: "#4285F4" }} />

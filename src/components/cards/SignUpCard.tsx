@@ -6,6 +6,7 @@ import {
   TextField,
   Button,
 } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {
   createUserWithEmailAndPassword,
   getAuth,
@@ -15,7 +16,11 @@ import { app } from "../../firebase";
 import { useDispatch } from "react-redux";
 import { updateUserName } from "../../store/user/user.slice";
 
-const SignUpCard: React.FC = () => {
+interface SignUpCardProps {
+  handleSignUp: (isVisible: boolean) => void;
+}
+
+const SignUpCard: React.FC<SignUpCardProps> = ({ handleSignUp }) => {
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [displayNameVal, setDisplayName] = useState<string>("");
@@ -82,7 +87,8 @@ const SignUpCard: React.FC = () => {
   return (
     <Card>
       <CardContent>
-        <CardHeader title="Sign Up" />
+        <CardHeader title="Sign Up" sx={{ color: "black" }} />
+
         <CardContent
           sx={{
             display: "flex",
@@ -125,6 +131,13 @@ const SignUpCard: React.FC = () => {
           />
           <Button variant="contained" onClick={handleSignUpWithEmailPassword}>
             Sign Up
+          </Button>
+          <Button
+            variant="contained"
+            startIcon={<ArrowBackIcon />}
+            onClick={() => handleSignUp(false)}
+          >
+            Back
           </Button>
         </CardContent>
       </CardContent>

@@ -1,13 +1,21 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 4em;
+}
+
 .homeCard {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 90%;
-  height: 90%;
+  width: 100%;
+  height: 100%;
   border: 4px solid black;
   border-radius: 5px;
-  margin: rem 1rem;
 }
 
 nav {
@@ -25,9 +33,7 @@ nav {
   justify-content: center;
   align-items: center;
   width: 90%;
-  border: 4px solid black;
-  border-radius: 5px;
-  margin: 1rem;
+  border: 1px solid black;
 }
 
 .tutorial {
@@ -39,5 +45,6 @@ nav {
   border: 4px solid black;
   border-radius: 5px;
   margin: 1rem;
+  gap: 1rem;
   overflow: scroll;
 }
