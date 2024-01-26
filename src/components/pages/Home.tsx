@@ -1,4 +1,11 @@
-import { Card, CardContent, Container, Paper, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  Container,
+  Paper,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import styles from "./Home.module.css";
 import Logout from "../buttons/Logout";
@@ -13,34 +20,32 @@ const Home: React.FC = () => {
   return (
     <div>
       <ApplicationBar />
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          height: "100vh",
-        }}
-      >
-        <Container
-          sx={{
-            backgroundColor: "#000000",
-            color: "#ffffff",
-            padding: "2rem",
-            textAlign: "center",
-          }}
-        >
-          <Typography variant="h2">Welcome to Unity Skill Forge</Typography>
-          <Typography variant="h4">
-            The best place to learn Unity game development
-          </Typography>
-          <Typography variant="h6">
-            Unity Skill Forge is a place where you can learn Unity game
-            development from the ground up. We have tutorials for all skill
-            levels, from beginner to advanced. We also have a community forum
-            where you can ask questions and get help from other developers.
-          </Typography>
-        </Container>
+      <Box component="div" border={4}>
+        <Box component="div" padding={2}>
+          <Container
+            sx={{
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              color: "#ffffff",
+              padding: "2rem",
+              textAlign: "center",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Typography variant="h2">Welcome to Unity Skill Forge</Typography>
+            <Typography variant="h4" padding={2}>
+              The best place to learn Unity game development
+            </Typography>
+            <Typography variant="body1">
+              Unity Skill Forge is a place where you can learn Unity game
+              development from the ground up. We have tutorials for all skill
+              levels, from beginner to advanced. We also have a community forum
+              where you can ask questions and get help from other developers.
+            </Typography>
+          </Container>
+        </Box>
         <Container>
           <Paper elevation={10}>
             <Typography variant="h4">Beginner Tutorials</Typography>
@@ -59,7 +64,7 @@ const Home: React.FC = () => {
             </Typography>
           </Paper>
         </Container>
-      </div>
+      </Box>
     </div>
   );
 
